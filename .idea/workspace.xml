@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ff005c4d-3284-44db-a518-9f6bfc8acfb4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="ff005c4d-3284-44db-a518-9f6bfc8acfb4" name="Changes" comment="added cvs" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +28,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="steam analysis 2" />
@@ -70,9 +73,34 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1707791568912</updated>
-      <workItem from="1707791570733" duration="1000" />
+      <workItem from="1707791570733" duration="254000" />
     </task>
+    <task id="LOCAL-00001" summary="added code files">
+      <option name="closed" value="true" />
+      <created>1707791628847</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1707791628847</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added cvs">
+      <option name="closed" value="true" />
+      <created>1707791658169</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1707791658169</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added code files" />
+    <MESSAGE value="added cvs" />
+    <option name="LAST_COMMIT_MESSAGE" value="added cvs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
