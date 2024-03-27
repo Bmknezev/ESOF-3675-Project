@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_pymongo import PyMongo
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -15,14 +15,18 @@ ca = certifi.where()
 client = MongoClient(uri, server_api=ServerApi('1'), tlsCAFile=ca)
 
 db = client.Steam
-games = db['Game Names']
+games = db['Games Names']
 categories = db.Categories
+
 
 
 #routes
 @app.route("/", methods = ["POST", "GET"])
 def index():
-    return render_template("layout.html", title="layout page", games = games)
+    if request.method == 'POST':
+        return redirect(url_for('index'))
+    g = games.find().limit(2)
+    return render_template("layout.html", title="layout page", games=g)
 
 
 #@app.route("/show_games/<id>", methods = ["POST", "GET"])
