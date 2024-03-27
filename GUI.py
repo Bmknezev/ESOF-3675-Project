@@ -5,8 +5,11 @@ from pymongo.server_api import ServerApi
 import ssl
 import certifi
 
-#init
+#init app
 app = Flask(__name__)
+
+
+## SETS UP MONGODB CONNECTION ##
 
 uri = "mongodb+srv://root:root@cluster0.qyyrcuj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 #sets up certificat
@@ -14,35 +17,34 @@ ca = certifi.where()
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'), tlsCAFile=ca)
 
+#test connection, not needed but good for bug testing
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+
+#defines the database variables
 db = client.Steam
 games = db['Games Names']
 categories = db.Categories
 
 
 
-#routes
+
+
+## ROUTES ##
+#determines which html file to load, and passes the variables to the html page
 @app.route("/", methods = ["POST", "GET"])
 def index():
     if request.method == 'POST':
         return redirect(url_for('index'))
-    g = games.find().limit(2)
-    return render_template("layout.html", title="layout page", games=g)
+    g = games.find().limit(20)
+    return render_template("view_games.html", title="View Games", games=g)
 
 
-#@app.route("/show_games/<id>", methods = ["POST", "GET"])
-#def show_games(id):
- #   if request.method == "POST":
-  #      form = TodoForm(request.form)
-#
- #       db.todo_flask.find_one_amd_update({"_id"})
-
-# setup mongoDB
-app.config["MONGO_URI"] = "mongodb+srv://root:root@cluster0.qyyrcuj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
-mongodb_client = PyMongo(app)
-db = mongodb_client.db
-
-#run
+## RUN ##
+#runs the app
 if __name__ == '__main__':
     app.secret_key = 'secretivekey'
     app.run(debug=True)
