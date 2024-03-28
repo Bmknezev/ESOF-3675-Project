@@ -28,19 +28,49 @@ except Exception as e:
 db = client.Steam
 games = db['Games Names']
 categories = db.Categories
+players = db.Playtime
 
-
+#global skipVal
+skipVal=0
 
 
 
 ## ROUTES ##
 #determines which html file to load, and passes the variables to the html page
-@app.route("/", methods = ["POST", "GET"])
+@app.route("/", methods=["POST", "GET"])
 def index():
+    global skipVal
     if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            skipVal += 1
+        if prev is not None:
+            skipVal -= 1
         return redirect(url_for('index'))
-    g = games.find().limit(20)
+    g = games.find().skip(skipVal*20).limit(20)
     return render_template("view_games.html", title="View Games", games=g)
+
+
+@app.route("/view_players", methods=["POST", "GET"])
+def view_players():
+    if request.method == "POST":
+        return redirect(url_for('view_players'))
+
+    page_size = 20
+    page_number = 0  # First page
+    pipeline = [
+        {"$group": {"_id": "$PlayerID"}},
+        {"$limit": 20},
+
+    ]
+
+    p = players.distinct("playerID")
+
+    return render_template("view_players.html", title="View Players", players=p)
+
+
+
 
 
 ## RUN ##

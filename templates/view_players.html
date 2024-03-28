@@ -7,7 +7,7 @@
 {% block content %}
 
 <!-- Header/title -->
-<h1>List of Games</h1>
+<h1>List of Players</h1>
 
 <!-- submit button-->
 <form method="post">
@@ -18,39 +18,27 @@
 <hr>
 
 
-<!-- Games Table -->
+<!-- Players Table -->
 <div class="container">
 
     <table class=" table mt-4 table-striped table-hover table-bordered ">
 
-        <!-- Games Table Head-->
+        <!-- Players Table Head -->
         <thead>
         <tr>
-            <th scope="col">Game ID</th>
-            <th scope="col">Game Name</th>
+            <th scope="col">Player ID</th>
         </tr>
         </thead>
 
-        <!-- Games Table Rows-->
+        <!-- Players Table rows -->
         <tbody class="table-group-divider">
-        {% for game in games %}
+        {% for player in players %}
         <tr>
-            <td> {{ game._id }}</td>
-            <td> {{ game['gameName'] }}</td>
+            <td>id = {{ player }}</td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <!-- submit button-->
-    <form method="post">
-        <button type="lasttPage" name="last">Previous Page</button>
-    </form>
-
-    <!-- submit button-->
-    <form method="post">
-        <button type="nextPage" name="next">Next Page</button>
-    </form>
 
 </div>
 
