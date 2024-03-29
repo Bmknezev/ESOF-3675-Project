@@ -1,3 +1,5 @@
+import math
+
 from flask import Flask, render_template, request, redirect, url_for, json
 from flask_pymongo import PyMongo
 from pymongo.mongo_client import MongoClient
@@ -27,8 +29,9 @@ except Exception as e:
 #defines the database variables
 db = client.Steam
 games = db['Games Names']
-categories = db['Categories']
 players = db['Playtime']
+
+categories = db['Categories']
 genres = db['Genres']
 tags = db['Tags']
 publishers = db['Publishers']
@@ -74,7 +77,7 @@ def index():
         return redirect(url_for('index'))
 
     g = games.find().skip(skipVal*pageSize).limit(pageSize)
-    numOfPages = games.count_documents({})//pageSize
+    numOfPages = math.ceil(games.count_documents({})/pageSize)
 
     if skipVal > 0:
         f = False
@@ -119,6 +122,35 @@ def view_players():
     else:
         f = True
     return render_template("view_players.html", title="View Players", players=pl, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
+@app.route("/view_categories", methods=["POST", "GET"])
+def view_categories():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 2:
+        curPage=2
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_categories'))
+
+    c = categories.find().sort({"_id": 1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(categories.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_categories.html", title="View Categories", categories=c, pgCount=numOfPages, currentPage=skipVal+1, first=f)
 
 
 @app.route("/search", methods=["POST", "GET"])
