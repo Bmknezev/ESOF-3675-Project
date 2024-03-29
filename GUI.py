@@ -50,10 +50,11 @@ gameStudioRelationships = db['Game-Studio Relationships']
 #arm database connections
 
 gameCategoryARM = db['games-categories ARM']
-gameGenreARM = db['game-genres ARM']
+gameGenreARM = db['games-genres ARM']
 gameTagARM = db['games-tags ARM']
 playerGenreARM = db['players-genres ARM']
 playerTagARM = db['players-tags ARM']
+gamesGamesARM = db['games-games ARM']
 
 #defines variable used in the GUI
 skipVal=0
@@ -225,7 +226,7 @@ def view_tags():
         f = True
     return render_template("view_tags.html", title="View Tags", tags=t, pgCount=numOfPages, currentPage=skipVal+1, first=f)
 
-#Tags table page
+#pulbishers table page
 @app.route("/view_publishers", methods=["POST", "GET"])
 def view_publishers():
     global skipVal
@@ -292,8 +293,8 @@ def view_platforms():
     global skipVal
     global numOfPages
     global curPage
-    if curPage != 6:
-        curPage=6
+    if curPage != 7:
+        curPage=7
         skipVal=0
 
     if request.method == 'POST':
@@ -329,11 +330,137 @@ def search():
             r = playerGenreARM.find(query).sort({"confidence": -1})
         elif op == "tag":
             r = playerTagARM.find(query).sort({"confidence": -1})
+        elif op == "game":
+            r = gamesGamesARM.find(query).sort({"confidence": -1})
+
         
         
-        
-        return render_template("search.html", title="Search", res=r)
+        return render_template("search.html", title="Search", res=r, searchOp=op)
     return render_template("search.html", title="Search")
+
+
+#games categories datamining page
+@app.route("/view_gameCategoryARM", methods=["POST", "GET"])
+def view_gameCategoryARM():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 8:
+        curPage=8
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_gameCategoryARM'))
+
+    r = gameCategoryARM.find().sort({"confidence": -1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(gameCategoryARM.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_gameCategoryARM.html", title="ARM", results=r, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
+
+#games genres datamining page
+@app.route("/view_gameGenreARM", methods=["POST", "GET"])
+def view_gameGenreARM():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 9:
+        curPage=9
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_gameGenreARM'))
+
+    r = gameGenreARM.find().sort({"confidence": -1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(gameGenreARM.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_gamesGenreARM.html", title="ARM", results=r, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
+
+#games tags datamining page
+@app.route("/view_gameTagARM", methods=["POST", "GET"])
+def view_gameTagARM():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 10:
+        curPage=10
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_gameTagARM'))
+
+    r = gameTagARM.find().sort({"confidence": -1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(gameTagARM.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_gameTagARM.html", title="ARM", results=r, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
+#games genres datamining page
+@app.route("/view_playerGenreARM", methods=["POST", "GET"])
+def view_playerGenreARM():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 11:
+        curPage=11
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_playerGenreARM'))
+
+    r = playerGenreARM.find().sort({"confidence": -1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(playerGenreARM.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_playerGenreARM.html", title="ARM", results=r, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
 
 
 #graphs page

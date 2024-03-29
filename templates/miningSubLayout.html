@@ -1,0 +1,39 @@
+<!-- sublayout for data mining tables -->
+<!-- inherits from layout -->
+{% extends "layout.html" %}
+
+
+<!-- Code needs to be in block content tag to properly inherit -->
+{% block content %}
+
+<style>
+
+    .dropdown-style{
+      margin-top:30px;
+      margin-left: 30px;
+
+    }
+
+</style>
+
+<!-- dropdown menu code -->
+<div class="dropdown">
+  <a class="btn btn-primary dropdown-toggle dropdown-style" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Select Table
+  </a>
+
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="{{url_for('graph')}}">View All Graphs</a></li>
+    <li><a class="dropdown-item" href="{{url_for('view_gameCategoryARM')}}">Games Category ARM</a></li>
+    <li><a class="dropdown-item" href="{{url_for('view_gameGenreARM')}}">Games Genres ARM</a></li>
+    <li><a class="dropdown-item" href="{{url_for('view_gameTagARM')}}">Games Tags ARM</a></li>
+    <li><a class="dropdown-item" href="{{url_for('view_playerGenreARM')}}">Player Genre ARM</a></li>
+  </ul>
+</div>
+
+
+
+{% block content1 %}
+{% endblock %}
+
+{% endblock %}
