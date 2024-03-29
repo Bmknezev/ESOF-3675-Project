@@ -53,7 +53,7 @@ numOfPages = 0
 
 ## ROUTES ##
 #determines which html file to load, and passes the variables to the html page
-@app.route("/", methods=["POST", "GET"])
+@app.route("/games", methods=["POST", "GET"])
 def index():
     global skipVal
     global numOfPages
@@ -139,6 +139,10 @@ def search():
 @app.route("/graph")
 def graph():
     return render_template("graphs.html", title="Graphs")
+
+@app.route("/")
+def homepage():
+    return render_template("homepage.html")
 
 ## RUN ##
 #runs the app
