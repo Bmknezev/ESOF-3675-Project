@@ -43,10 +43,12 @@ gameStudioRelationships = db['Game-Studio Relationships']
 
 
 
-#global skipVal
 skipVal=0
 curPage=0
 
+
+pageSize = 20
+numOfPages = 0
 
 
 ## ROUTES ##
@@ -54,6 +56,7 @@ curPage=0
 @app.route("/", methods=["POST", "GET"])
 def index():
     global skipVal
+    global numOfPages
     global curPage
     if curPage != 0:
         curPage=0
@@ -63,13 +66,16 @@ def index():
         next = request.form.get("next")
         prev = request.form.get("last")
         if next is not None:
-            skipVal += 1
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
         if prev is not None:
             if skipVal > 0:
                 skipVal -= 1
         return redirect(url_for('index'))
-    g = games.find().skip(skipVal*20).limit(20)
-    return render_template("view_games.html", title="View Games", games=g)
+
+    g = games.find().skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = games.count_documents({})//pageSize
+    return render_template("view_games.html", title="View Games", games=g, pgCount=numOfPages, currentPage=skipVal+1)
 
 
 @app.route("/view_players", methods=["POST", "GET"])
@@ -99,12 +105,12 @@ def view_players():
     ]
 
     #p = players.distinct("playerID")
-    
+
     pl = players.aggregate(pipeline)
 
     p = players.distinct("playerID")
-    
-    
+
+
     return render_template("view_players.html", title="View Players", players=pl)
 
 
