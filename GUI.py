@@ -36,9 +36,10 @@ categories = db['Categories']
 genres = db['Genres']
 tags = db['Tags']
 publishers = db['Publishers']
-
 developers = db['Developers']
+
 platforms = db['Platforms']
+
 studios = db['Studios']
 
 gameCategoryRelationships = db['Game-Category Relationships']
@@ -253,6 +254,67 @@ def view_publishers():
     else:
         f = True
     return render_template("view_publishers.html", title="View Publishers", publishers=p, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
+
+#Developers table page
+@app.route("/view_developers", methods=["POST", "GET"])
+def view_developers():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 6:
+        curPage=6
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_developers'))
+
+    d = developers.find().sort({"_id": 1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(developers.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_developers.html", title="View Developers", devs=d, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
+#Platforms table page
+@app.route("/view_platforms", methods=["POST", "GET"])
+def view_platforms():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 6:
+        curPage=6
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_platforms'))
+
+    p = platforms.find().sort({"_id": 1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(platforms.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_platforms.html", title="View Platforms", plats=p, pgCount=numOfPages, currentPage=skipVal+1, first=f)
 
 
 
