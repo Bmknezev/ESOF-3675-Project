@@ -121,11 +121,26 @@ def view_players():
     return render_template("view_players.html", title="View Players", players=pl, pgCount=numOfPages, currentPage=skipVal+1, first=f)
 
 
+@app.route("/search", methods=["POST", "GET"])
+def search():
+    r = []
+    if request.method == "POST":
+        req = request.form.get("term")
+        op = request.form['options']
+        # code to search our ARM for matching key
+        r = [{"text": "string"}]
 
+        return render_template("search.html", title="Search", res=r)
+    return render_template("search.html", title="Search")
 
+@app.route("/search_results", methods=["POST", "GET"])
+def search_results():
+    return render_template("search_results.html", title="Search")
 
 ## RUN ##
 #runs the app
 if __name__ == '__main__':
     app.secret_key = 'secretivekey'
     app.run(debug=True)
+
+
