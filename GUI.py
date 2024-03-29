@@ -142,7 +142,7 @@ def graph():
 
 @app.route("/")
 def homepage():
-    return render_template("homepage.html")
+    return render_template("homepage.html", title="games unlimited games")
 
 ## RUN ##
 #runs the app
