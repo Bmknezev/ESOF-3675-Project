@@ -25,20 +25,20 @@
 
         <!-- Games Table Head-->
         <thead>
-        <tr>
-            <th scope="col">Game ID</th>
-            <th scope="col">Game Name</th>
-        </tr>
+            <tr>
+                <th scope="col">Game ID</th>
+                <th scope="col">Game Name</th>
+            </tr>
         </thead>
 
         <!-- Games Table Rows-->
         <tbody class="table-group-divider">
-        {% for game in games %}
-        <tr>
-            <td> {{ game._id }}</td>
-            <td> {{ game['gameName'] }}</td>
-        </tr>
-        {% endfor %}
+            {% for game in games %}
+            <tr>
+                <td> {{ game._id }}</td>
+                <td> {{ game['gameName'] }}</td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 
@@ -51,7 +51,8 @@
     <form method="post">
         <button type="nextPage" name="next">Next Page</button>
     </form>
-
+    <br>
+    <br>
 </div>
 
 {% endblock %}

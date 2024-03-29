@@ -25,21 +25,30 @@
 
         <!-- Players Table Head -->
         <thead>
-        <tr>
-            <th scope="col">Player ID</th>
-        </tr>
+            <tr>
+                <th scope="col">Player ID</th>
+            </tr>
         </thead>
 
         <!-- Players Table rows -->
         <tbody class="table-group-divider">
-        {% for player in players %}
-        <tr>
-            <td>id = {{ player }}</td>
-        </tr>
-        {% endfor %}
+            {% for player in players %}
+            <tr>
+                <td>{{ player }}</td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 
+    <!-- submit button-->
+    <form method="post">
+        <button type="lasttPage" name="last">Previous Page</button>
+    </form>
+
+    <!-- submit button-->
+    <form method="post">
+        <button type="nextPage" name="next">Next Page</button>
+    </form>
 </div>
 
 {% endblock %}

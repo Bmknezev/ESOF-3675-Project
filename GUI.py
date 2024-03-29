@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, json
 from flask_pymongo import PyMongo
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -32,6 +32,7 @@ players = db.Playtime
 
 #global skipVal
 skipVal=0
+curPage=0
 
 
 
@@ -40,13 +41,19 @@ skipVal=0
 @app.route("/", methods=["POST", "GET"])
 def index():
     global skipVal
+    global curPage
+    if curPage != 0:
+        curPage=0
+        skipVal=0
+
     if request.method == 'POST':
         next = request.form.get("next")
         prev = request.form.get("last")
         if next is not None:
             skipVal += 1
         if prev is not None:
-            skipVal -= 1
+            if skipVal > 0:
+                skipVal -= 1
         return redirect(url_for('index'))
     g = games.find().skip(skipVal*20).limit(20)
     return render_template("view_games.html", title="View Games", games=g)
@@ -54,20 +61,38 @@ def index():
 
 @app.route("/view_players", methods=["POST", "GET"])
 def view_players():
+    global skipVal
+    global curPage
+    if curPage != 1:
+        curPage=1
+        skipVal=0
     if request.method == "POST":
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
         return redirect(url_for('view_players'))
 
     page_size = 20
     page_number = 0  # First page
     pipeline = [
-        {"$group": {"_id": "$PlayerID"}},
+        {"$group": {"_id": "$playerID"}},
+        {"$skip": skipVal*20},
         {"$limit": 20},
-
+  {"$sort": {"_id": 1}}
     ]
 
-    p = players.distinct("playerID")
+    #p = players.distinct("playerID")
+    
+    pl = players.aggregate(pipeline)
 
-    return render_template("view_players.html", title="View Players", players=p)
+    p = players.distinct("playerID")
+    
+    
+    return render_template("view_players.html", title="View Players", players=pl)
 
 
 
