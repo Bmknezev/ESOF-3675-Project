@@ -1,0 +1,36 @@
+<!-- View games page, gets and shows games from the database -->
+<!-- inherits from layout -->
+{% extends "layout.html" %}
+
+
+<!-- Code needs to be in block content tag to properly inherit -->
+{% block content %}
+
+<style>
+
+    .dropdown-style{
+      margin-top:30px;
+      margin-left: 30px;
+
+    }
+
+</style>
+
+<!-- dropdown menu code -->
+<div class="dropdown">
+  <a class="btn btn-secondary dropdown-toggle dropdown-style btn-primary " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Select Table
+  </a>
+
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="{{url_for('index')}}">Games Table</a></li>
+    <li><a class="dropdown-item" href="{{url_for('view_players')}}">Players Table</a></li>
+  </ul>
+</div>
+
+
+
+{% block content1 %}
+{% endblock %}
+
+{% endblock %}
