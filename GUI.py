@@ -33,10 +33,10 @@ db = client.Steam
 games = db['Games Names']
 players = db['Playtime']
 categories = db['Categories']
-
 genres = db['Genres']
 tags = db['Tags']
 publishers = db['Publishers']
+
 developers = db['Developers']
 platforms = db['Platforms']
 studios = db['Studios']
@@ -193,6 +193,67 @@ def view_genres():
     else:
         f = True
     return render_template("view_genres.html", title="View Genre", genres=g, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
+#Tags table page
+@app.route("/view_tags", methods=["POST", "GET"])
+def view_tags():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 4:
+        curPage=4
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_tags'))
+
+    t = tags.find().sort({"_id": 1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(tags.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_tags.html", title="View Tags", tags=t, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
+#Tags table page
+@app.route("/view_publishers", methods=["POST", "GET"])
+def view_publishers():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 5:
+        curPage=5
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_publishers'))
+
+    p = publishers.find().sort({"_id": 1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(publishers.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_publishers.html", title="View Publishers", publishers=p, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
 
 
 #search page

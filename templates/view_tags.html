@@ -1,4 +1,4 @@
-<!-- View genre page -->
+<!-- View games page, gets and shows games from the database -->
 <!-- inherits from layout -->
 {% extends "dataTableSubLayout.html" %}
 
@@ -14,7 +14,7 @@
 </style>
 
 <!-- Header/title -->
-<h1>List of Genres</h1>
+<h1>List of Tags</h1>
 
 
 
@@ -40,10 +40,10 @@
 
                     <!-- Table rows -->
                     <tbody class="table-group-divider">
-                        {% for genre in genres %}
+                        {% for tag in tags %}
                         <tr>
-                            <td>{{ genre._id }}</td>
-                            <td>{{ genre.genreName }}</td>
+                            <td>{{ tag._id }}</td>
+                            <td>{{ tag.tagName }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
