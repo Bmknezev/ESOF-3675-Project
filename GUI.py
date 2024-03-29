@@ -136,6 +136,10 @@ def search():
     return render_template("search.html", title="Search")
 
 
+@app.route("/graph")
+def graph():
+    return render_template("graphs.html", title="Graphs")
+
 ## RUN ##
 #runs the app
 if __name__ == '__main__':
