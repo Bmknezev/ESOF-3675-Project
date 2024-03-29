@@ -34,7 +34,7 @@
         <tbody class="table-group-divider">
             {% for player in players %}
             <tr>
-                <td>{{ player }}</td>
+                <td>{{ player._id }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -42,14 +42,17 @@
 
     <!-- Traverse Pages Button Bar-->
     <form method="post">
-        <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="lastPage" name="last">Previous Page</button>
-        <h4> Page {{currentPage}}/{{pgCount}} Pages </h4>
-        <button type="nextPage" name="next">Next Page</button>
-        </div>
+        {% if first %}
+        <button class="btn btn-outline-primary" type="lasttPage" name="last" disabled>Previous Page</button>
+        {% else %}
+        <button class="btn btn-outline-primary" type="lasttPage" name="last">Previous Page</button>
+        {% endif %}
     </form>
-    <br>
-    <br>
+<h4> Page {{currentPage}}/{{pgCount}} Pages </h4>
+    <!-- submit button-->
+    <form method="post">
+        <button class="btn btn-outline-primary" type="nextPage" name="next">Next Page</button>
+    </form>
 </div>
 
 {% endblock %}

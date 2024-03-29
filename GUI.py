@@ -47,7 +47,7 @@ skipVal=0
 curPage=0
 
 
-pageSize = 20
+pageSize = 10
 numOfPages = 0
 
 
@@ -75,7 +75,12 @@ def index():
 
     g = games.find().skip(skipVal*pageSize).limit(pageSize)
     numOfPages = games.count_documents({})//pageSize
-    return render_template("view_games.html", title="View Games", games=g, pgCount=numOfPages, currentPage=skipVal+1)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_games.html", title="View Games", games=g, pgCount=numOfPages, currentPage=skipVal+1, first=f)
 
 
 @app.route("/view_players", methods=["POST", "GET"])
@@ -109,8 +114,11 @@ def view_players():
 
     pl = players.aggregate(pipeline)
     #numOfPages = pl.count_documents({}) // pageSize
-
-    return render_template("view_players.html", title="View Players", players=pl, pgCount=numOfPages, currentPage=skipVal+1)
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_players.html", title="View Players", players=pl, pgCount=numOfPages, currentPage=skipVal+1, first=f)
 
 
 
