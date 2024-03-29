@@ -52,14 +52,7 @@
                         <input class="form-check-input" type="radio" name="options" id="tagRadio" value="tag">
                         <label class="form-check-label" for="tagRadio">Tag</label>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="options" id="catRadio" value="cat">
-                        <label class="form-check-label" for="catRadio">Category</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="options" id="gameRadio" value="game">
-                        <label class="form-check-label" for="gameRadio">Game</label>
-                    </div>
+
 
                 </div>
                 <div class="col">
@@ -68,7 +61,7 @@
             </div>
         </div>
     </form>
-    {% if res|length > 0 %}
+
     <div class="container">
         <div class="row">
             <div class="col">
@@ -80,6 +73,9 @@
                     <!-- Games Table Head-->
                     <thead>
                         <tr>
+                            <td>If you like</td>
+                            <td>You might like</td>
+                            <td>Confidence</td>
                         </tr>
                     </thead>
 
@@ -87,7 +83,9 @@
                     <tbody class="table-group-divider">
                         {% for game in res %}
                         <tr>
-                            <td> {{ game.text }}</td>
+                            <td>{{ game.antecedents}}</td>
+                            <td>{{game.consequents}}</td>
+                            <td> {{ '%0.2f' % game.confidence }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -100,7 +98,6 @@
 
     </div>
 </div>
-{% endif %}
 </div>
 
 {% endblock %}

@@ -6,6 +6,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import ssl
 import certifi
+import re
 
 #init app
 app = Flask(__name__)
@@ -45,6 +46,13 @@ gameGenreRelationships = db['Game-Genre Relationships']
 gameTagRelationships = db['Game-Tag Relationships']
 gameStudioRelationships = db['Game-Studio Relationships']
 
+#arm database connections
+
+gameCategoryARM = db['games-categories ARM']
+gameGenreARM = db['game-genres ARM']
+gameTagARM = db['games-tags ARM']
+playerGenreARM = db['players-genres ARM']
+playerTagARM = db['players-tags ARM']
 
 #defines variable used in the GUI
 skipVal=0
@@ -190,15 +198,17 @@ def view_genres():
 #search page
 @app.route("/search", methods=["POST", "GET"])
 def search():
-    r = []
     if request.method == "POST":
         req = request.form.get("term")
         op = request.form['options']
-        # code to search our ARM for matching key
-        #examples: if you play the search term, what other tags/categories/genres/games might you like
-        #recommendation system? or somthing like that
-        r = [{"text": "string"}]
-
+        query = {"antecedents": req.title()}
+        if op == "genre":
+            r = playerGenreARM.find(query).sort({"confidence": -1})
+        elif op == "tag":
+            r = playerTagARM.find(query).sort({"confidence": -1})
+        
+        
+        
         return render_template("search.html", title="Search", res=r)
     return render_template("search.html", title="Search")
 
