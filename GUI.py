@@ -27,8 +27,21 @@ except Exception as e:
 #defines the database variables
 db = client.Steam
 games = db['Games Names']
-categories = db.Categories
-players = db.Playtime
+categories = db['Categories']
+players = db['Playtime']
+genres = db['Genres']
+tags = db['Tags']
+publishers = db['Publishers']
+developers = db['Developers']
+platforms = db['Platforms']
+studios = db['Studios']
+
+gameCategoryRelationships = db['Game-Category Relationships']
+gameGenreRelationships = db['Game-Genre Relationships']
+gameTagRelationships = db['Game-Tag Relationships']
+gameStudioRelationships = db['Game-Studio Relationships']
+
+
 
 #global skipVal
 skipVal=0
