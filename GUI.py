@@ -101,19 +101,19 @@ def view_players():
                 skipVal -= 1
         return redirect(url_for('view_players'))
 
-    page_size = 20
+    page_size = 10
     page_number = 0  # First page
     pipeline = [
         {"$group": {"_id": "$playerID"}},
-        {"$skip": skipVal*20},
-        {"$limit": 20},
+        {"$skip": skipVal*10},
+        {"$limit": 10},
         {"$sort": {"_id": 1}}
     ]
 
 
 
     pl = players.aggregate(pipeline)
-    #numOfPages = pl.count_documents({}) // pageSize
+    
     if skipVal > 0:
         f = False
     else:
