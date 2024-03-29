@@ -14,7 +14,7 @@
 </style>
 
 <!-- Header/title -->
-<h1>List of Categories</h1>
+<h1>List of Genres</h1>
 
 
 
@@ -40,10 +40,10 @@
 
                     <!-- Table rows -->
                     <tbody class="table-group-divider">
-                        {% for cat in categories %}
+                        {% for genre in genres %}
                         <tr>
-                            <td>{{ cat._id }}</td>
-                            <td>{{ cat.categoryName }}</td>
+                            <td>{{ genre._id }}</td>
+                            <td>{{ genre.genreName }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

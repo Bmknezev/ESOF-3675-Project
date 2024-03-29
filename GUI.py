@@ -26,12 +26,13 @@ try:
 except Exception as e:
     print(e)
 
+
 #defines the database variables
 db = client.Steam
 games = db['Games Names']
 players = db['Playtime']
-
 categories = db['Categories']
+
 genres = db['Genres']
 tags = db['Tags']
 publishers = db['Publishers']
@@ -45,10 +46,9 @@ gameTagRelationships = db['Game-Tag Relationships']
 gameStudioRelationships = db['Game-Studio Relationships']
 
 
-
+#defines variable used in the GUI
 skipVal=0
 curPage=0
-
 
 pageSize = 10
 numOfPages = 0
@@ -56,6 +56,8 @@ numOfPages = 0
 
 ## ROUTES ##
 #determines which html file to load, and passes the variables to the html page
+
+#games table page
 @app.route("/games", methods=["POST", "GET"])
 def index():
     global skipVal
@@ -85,7 +87,7 @@ def index():
         f = True
     return render_template("view_games.html", title="View Games", games=g, pgCount=numOfPages, currentPage=skipVal+1, first=f)
 
-
+#players table page
 @app.route("/view_players", methods=["POST", "GET"])
 def view_players():
     global skipVal
@@ -110,7 +112,7 @@ def view_players():
         {"$group": {"_id": "$playerID"}},
         {"$skip": skipVal*10},
         {"$limit": 10},
-        {"$sort": {"_id": 1}}
+        {"$sort": {"playerID": 1}}
     ]
 
 
@@ -123,6 +125,8 @@ def view_players():
         f = True
     return render_template("view_players.html", title="View Players", players=pl, pgCount=numOfPages, currentPage=skipVal+1, first=f)
 
+
+#categories table page
 @app.route("/view_categories", methods=["POST", "GET"])
 def view_categories():
     global skipVal
@@ -152,7 +156,38 @@ def view_categories():
         f = True
     return render_template("view_categories.html", title="View Categories", categories=c, pgCount=numOfPages, currentPage=skipVal+1, first=f)
 
+#Genres table page
+@app.route("/view_genres", methods=["POST", "GET"])
+def view_genres():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 3:
+        curPage=3
+        skipVal=0
 
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_genres'))
+
+    g = genres.find().sort({"_id": 1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(genres.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_genres.html", title="View Genre", genres=g, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
+
+#search page
 @app.route("/search", methods=["POST", "GET"])
 def search():
     r = []
@@ -168,13 +203,17 @@ def search():
     return render_template("search.html", title="Search")
 
 
+#graphs page
 @app.route("/graph")
 def graph():
     return render_template("graphs.html", title="Graphs")
 
+#homepage
 @app.route("/")
 def homepage():
     return render_template("homepage.html", title="games unlimited games")
+
+
 
 ## RUN ##
 #runs the app
