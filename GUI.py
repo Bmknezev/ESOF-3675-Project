@@ -128,14 +128,13 @@ def search():
         req = request.form.get("term")
         op = request.form['options']
         # code to search our ARM for matching key
+        #examples: if you play the search term, what other tags/categories/genres/games might you like
+        #recommendation system? or somthing like that
         r = [{"text": "string"}]
 
         return render_template("search.html", title="Search", res=r)
     return render_template("search.html", title="Search")
 
-@app.route("/search_results", methods=["POST", "GET"])
-def search_results():
-    return render_template("search_results.html", title="Search")
 
 ## RUN ##
 #runs the app
