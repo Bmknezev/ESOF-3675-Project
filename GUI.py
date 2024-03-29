@@ -81,6 +81,7 @@ def index():
 @app.route("/view_players", methods=["POST", "GET"])
 def view_players():
     global skipVal
+    global numOfPages
     global curPage
     if curPage != 1:
         curPage=1
@@ -101,17 +102,15 @@ def view_players():
         {"$group": {"_id": "$playerID"}},
         {"$skip": skipVal*20},
         {"$limit": 20},
-  {"$sort": {"_id": 1}}
+        {"$sort": {"_id": 1}}
     ]
 
-    #p = players.distinct("playerID")
+
 
     pl = players.aggregate(pipeline)
+    #numOfPages = pl.count_documents({}) // pageSize
 
-    p = players.distinct("playerID")
-
-
-    return render_template("view_players.html", title="View Players", players=pl)
+    return render_template("view_players.html", title="View Players", players=pl, pgCount=numOfPages, currentPage=skipVal+1)
 
 
 

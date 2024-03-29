@@ -40,15 +40,16 @@
         </tbody>
     </table>
 
-    <!-- submit button-->
+    <!-- Traverse Pages Button Bar-->
     <form method="post">
-        <button type="lasttPage" name="last">Previous Page</button>
-    </form>
-
-    <!-- submit button-->
-    <form method="post">
+        <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="lastPage" name="last">Previous Page</button>
+        <h4> Page {{currentPage}}/{{pgCount}} Pages </h4>
         <button type="nextPage" name="next">Next Page</button>
+        </div>
     </form>
+    <br>
+    <br>
 </div>
 
 {% endblock %}
