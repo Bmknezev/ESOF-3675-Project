@@ -326,6 +326,7 @@ def search():
         req = request.form.get("term")
         op = request.form['options']
         query = {"antecedents": req.title()}
+        length = 0
         if op == "genre":
             r = playerGenreARM.find(query).sort({"confidence": -1})
         elif op == "tag":
@@ -333,7 +334,6 @@ def search():
         elif op == "game":
             r = gamesGamesARM.find(query).sort({"confidence": -1})
 
-        
         
         return render_template("search.html", title="Search", res=r, searchOp=op)
     return render_template("search.html", title="Search")
