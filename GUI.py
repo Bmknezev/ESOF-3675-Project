@@ -461,6 +461,66 @@ def view_playerGenreARM():
         f = True
     return render_template("view_playerGenreARM.html", title="ARM", results=r, pgCount=numOfPages, currentPage=skipVal+1, first=f)
 
+#games genres datamining page
+@app.route("/view_playerTagARM", methods=["POST", "GET"])
+def view_playerTagARM():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 12:
+        curPage=12
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_playerTagARM'))
+
+    r = playerTagARM.find().sort({"confidence": -1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(playerTagARM.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_playerTagARM.html", title="ARM", results=r, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
+#games games datamining page
+@app.route("/view_gameGameARM", methods=["POST", "GET"])
+def view_gameGameARM():
+    global skipVal
+    global numOfPages
+    global curPage
+    if curPage != 12:
+        curPage=12
+        skipVal=0
+
+    if request.method == 'POST':
+        next = request.form.get("next")
+        prev = request.form.get("last")
+        if next is not None:
+            if skipVal + 1 < numOfPages:
+                skipVal += 1
+        if prev is not None:
+            if skipVal > 0:
+                skipVal -= 1
+        return redirect(url_for('view_gameGameARM'))
+
+    r = gamesGamesARM.find().sort({"confidence": -1}).skip(skipVal*pageSize).limit(pageSize)
+    numOfPages = math.ceil(gamesGamesARM.count_documents({})/pageSize)
+
+    if skipVal > 0:
+        f = False
+    else:
+        f = True
+    return render_template("view_gameGameARM.html", title="ARM", results=r, pgCount=numOfPages, currentPage=skipVal+1, first=f)
+
 
 
 #graphs page
